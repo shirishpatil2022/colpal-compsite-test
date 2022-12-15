@@ -1,6 +1,15 @@
 name: cache-dependencies
 description: to avoid duplication cache
-runs: 
+inputs:
+  cache-job: 
+    description: 'cache- job- inputs'
+    required: false
+    default: 'true' 
+outputs:
+  used-cache: 
+    description: 'cache-job-output'
+    value: ${{steps.install.outputs.cacheout}}
+  runs: 
   using: 'composite'
   steps: 
     - name: cache-dependencies
@@ -10,9 +19,12 @@ runs:
         path: node_modules
         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
     - name: Install dependencies
+      id: install
       if: steps.cache.outputs.cache-hit != 'true'
-      run: npm ci
+      run: |
+        npm ci
+        echo "cacheout='${{inputs.cache-job}}'" >> $GITHUB_OUTPUT
       shell: bash
-      
+
 
 
