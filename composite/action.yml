@@ -9,7 +9,7 @@ outputs:
   used-cache: 
     description: 'cache-job-output'
     value: ${{steps.install.outputs.cacheout}}
-  runs: 
+runs:
   using: 'composite'
   steps: 
     - name: cache-dependencies
