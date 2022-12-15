@@ -12,6 +12,8 @@ jobs:
       - name: cache from action file
         id: cache-dependencies
         uses: ./composite 
+          with:
+            cache-job: 'false'
       - name: Lint code
         run: npm run lint
   test:
